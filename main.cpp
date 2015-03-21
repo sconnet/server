@@ -9,7 +9,7 @@
 //
 // File Overview : test program for my server library
 //
-// Revision History : 
+// Revision History :
 //
 // $Log: $
 //
@@ -29,19 +29,19 @@ using namespace std;
 // Method         : operator<<
 //
 // Implementation : display the exception to user's stream
-// 
+//
 //-------------------------------------------------------------------------
 //
-ostream& operator<<(std::ostream& out, const Exception& exception)
+ostream &operator<<(std::ostream &out, const Exception &exception)
 {
-  std::string sep(79, '*');
-  out << sep
-      << "\nexception: " << exception.reason
-      << "\n    error: " << errno << " (" << strerror(errno) << ")"
-      << "\n     line: " << exception.line
-      << "\n     file: " << exception.file
-      << '\n' << sep;
-  return out;
+    std::string sep(79, '*');
+    out << sep
+        << "\nexception: " << exception.reason
+        << "\n    error: " << errno << " (" << strerror(errno) << ")"
+        << "\n     line: " << exception.line
+        << "\n     file: " << exception.file
+        << '\n' << sep;
+    return out;
 
 } // operator<<
 
@@ -50,13 +50,13 @@ ostream& operator<<(std::ostream& out, const Exception& exception)
 // Method         : signalHandler
 //
 // Implementation : Handle signals so we can gracefully exit
-// 
+//
 //-------------------------------------------------------------------------
 //
 void signalHandler(int signo)
 {
-  cout << "got signal " << signo << endl;
-  
+    cout << "got signal " << signo << endl;
+
 } // signalHandler
 
 //
@@ -68,24 +68,26 @@ void signalHandler(int signo)
 //
 //                  return false if client disconnected or there
 //                  was an error reading from the client
-// 
+//
 //-------------------------------------------------------------------------
 //
-bool read_client(int fd, void* data)
+bool read_client(int fd, void *data)
 {
-  const int buf_size = 8192; // 8k
-  char buf[buf_size + 1];
+    const int buf_size = 8192; // 8k
+    char buf[buf_size + 1];
 
-  memset (buf, 0, buf_size);
-  int bytes = read (fd, (char*)buf, buf_size);
-  if (bytes <= 0)
-    return false;
+    memset(buf, 0, buf_size);
+    int bytes = read(fd, (char *)buf, buf_size);
+    if(bytes <= 0)
+    {
+        return false;
+    }
 
-  // write this to a file
-  cout << buf << endl;
+    // write this to a file
+    cout << buf << endl;
 
-  return true;
-  
+    return true;
+
 } // read_client
 
 //
@@ -93,31 +95,34 @@ bool read_client(int fd, void* data)
 // Method         : main
 //
 // Implementation : program entry point
-// 
+//
 //-------------------------------------------------------------------------
 //
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  // setup signals to catch
-  signal(SIGTERM, signalHandler);
-  signal(SIGINT, signalHandler);
-  signal(SIGPIPE, SIG_IGN); 
+    // setup signals to catch
+    signal(SIGTERM, signalHandler);
+    signal(SIGINT, signalHandler);
+    signal(SIGPIPE, SIG_IGN);
 
-  Server server;
-  try {
-    
-    server.listen(32000, read_client);
-    server.select();
-  }
-  catch(Exception exception) {
+    Server server;
+    try
+    {
 
-    cerr << exception << endl;
-  }
-  catch(...) {
+        server.listen(32000, read_client);
+        server.select();
+    }
+    catch(Exception exception)
+    {
 
-    cerr << "Unknown exception caught!" << endl;
-  }
-  
-  return 0;
+        cerr << exception << endl;
+    }
+    catch(...)
+    {
+
+        cerr << "Unknown exception caught!" << endl;
+    }
+
+    return 0;
 
 } // main

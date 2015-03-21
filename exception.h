@@ -9,7 +9,7 @@
 //
 // File Overview : Used for throwing exceptions
 //
-// Revision History : 
+// Revision History :
 //
 // $Log: $
 //
@@ -24,17 +24,17 @@
 class Exception
 {
 public:
-  Exception(const std::string& reason, int line, const std::string& file) :
-    reason(reason),
-    line(line),
-    file(file) {}
+    Exception(const std::string &reason, int line, const std::string &file) :
+        reason(reason),
+        line(line),
+        file(file) {}
 
-  friend std::ostream& operator<<(std::ostream& out, const Exception& exception);
+    friend std::ostream &operator<<(std::ostream &out, const Exception &exception);
 
-private:  
-  std::string reason;
-  int line;
-  std::string file;
+private:
+    std::string reason;
+    int line;
+    std::string file;
 };
 
 #endif // _EXCEPTION_H_

@@ -12,7 +12,7 @@
 //
 //                 TODO: make this into a libary
 //
-// Revision History : 
+// Revision History :
 //
 // $Log: $
 //
@@ -25,32 +25,33 @@
 #include "exception.h"
 #include "mutex.h"
 
-typedef bool (*Callback)(int, void*);
+typedef bool (*Callback)(int, void *);
 
 class Server
 {
- public:
-  explicit Server(int port = 0, Callback fn = 0, void* data = 0);
-  ~Server();
+public:
+    explicit Server(int port = 0, Callback fn = 0, void *data = 0);
+    ~Server();
 
-  int listen(int port = 0, Callback fn = 0, void* data = 0) throw (Exception);
-  int select() throw (Exception);
-  void quit();
-  void setCallback(Callback fn, void* data) {
-    callbackFn = fn;
-    callbackData = data;
-  }
-  
- private:
-  int fd;
-  int port;
-  bool listening;
+    int listen(int port = 0, Callback fn = 0, void *data = 0) throw(Exception);
+    int select() throw(Exception);
+    void quit();
+    void setCallback(Callback fn, void *data)
+    {
+        callbackFn = fn;
+        callbackData = data;
+    }
 
-  Callback callbackFn;
-  void* callbackData;
+private:
+    int fd;
+    int port;
+    bool listening;
 
-  std::vector<int> client;
-  Mutex mutex;
+    Callback callbackFn;
+    void *callbackData;
+
+    std::vector<int> client;
+    Mutex mutex;
 };
 
 
